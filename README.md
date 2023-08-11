@@ -21,7 +21,7 @@ make
 ## Usage
 
 ```bash
-./webserv [configuration file]
+sudo ./webserv [configuration file]
 ```
 Then see the result on your web brower (localhost).
 
