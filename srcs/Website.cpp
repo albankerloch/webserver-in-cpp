@@ -82,9 +82,9 @@ void	WS::Website::print(void)
 
 std::string	WS::Website::isValid()
 {
-    if (this->m_host_port.empty())
+	if (this->m_host_port.empty())
         return "Host and port not found";
-	
+
 	if (!(this->checkHostFormat()))
         return "Host invalid format";
 
@@ -94,7 +94,7 @@ std::string	WS::Website::isValid()
 	if (this->m_error_page.empty())
         return "Default error page not found";
 
-    if (this->m_client_max_body_size.empty())
+	if (this->m_client_max_body_size.empty())
         return "Body size limit not found";
 
 	if (!(this->checkBodySizeFormat()))
