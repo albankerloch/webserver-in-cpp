@@ -16,7 +16,7 @@ Use this command in a terminal in each directory :
 make
 ```
 
-(make and clang++ needed)
+(make and clang needed)
 
 ## Usage
 
