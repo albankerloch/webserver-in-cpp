@@ -101,6 +101,18 @@ int 	WS::Connexion::handler()
 			//	std::cout << "File created on " << this->m_fileFd << std::endl;
 				this->m_hasFileFd = true;
 			}
+			else if (this->m_req->getMethod() == "GET" && this->m_req->getContentType() == "image/png")
+			{
+				std::ifstream 		file(this->m_req->getFile().c_str());
+				std::stringstream 	buffer;
+				if (file.is_open())
+				{
+					buffer << file.rdbuf();
+					file.close();
+				}
+				this->m_fileBuff = buffer.str();
+				this->m_state = 5;
+			}
 			else if (this->m_req->getMethod() == "GET" || this->m_req->getMethod() == "POST")
 			{
 				this->m_fileFd = open(this->m_req->getFile().c_str(), O_RDONLY);

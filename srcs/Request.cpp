@@ -146,7 +146,6 @@ void	WS::Request::findContentType()
 		this->m_contentType = "text/css";		
 	if (extension == "png" || extension == "jpeg")
 		this->m_contentType = "image/" + extension;
-	std::cout << "File extension : " << extension << std::endl;
 }
 
 int WS::Request::checkMethod()

@@ -13,7 +13,7 @@ WS::Response::Response(Request *req, Website *website, std::string fileBuff)
 	status = static_cast<std::ostringstream*>( &(std::ostringstream() << this->m_req->getStatus()))->str();
 	msg = this->m_website->getWebserver()->getStatusMsg()[this->m_req->getStatus()];
 	
-	fillBody(&parse, status, msg);
+	fillBody(&parse, status, msg, fileBuff);
 	
 	header = this->m_req->getProtocolVersion() + " " + status + " " + msg + " \nContent-Type: " + this->m_req->getContentType();
 	this->m_response = header + "\n\n" + this->m_body;
@@ -21,7 +21,7 @@ WS::Response::Response(Request *req, Website *website, std::string fileBuff)
 }
 
 //SETTEURS
-void	WS::Response::fillBody(Parser *parse, std::string status, std::string msg)
+void	WS::Response::fillBody(Parser *parse, std::string status, std::string msg, std::string fileBuff)
 {
 	if (this->m_req->getIsAutoindex())
 		this->m_body = this->m_req->getAutoindex();
@@ -30,7 +30,7 @@ void	WS::Response::fillBody(Parser *parse, std::string status, std::string msg)
 		if (this->m_req->getTypeReq() ==  "CGI")
 			this->m_body = parse->getBody();
 		else
-			this->m_body = parse->getContent();	
+			this->m_body = parse->getContent();
 	}
 	else if (this->m_req->getConnexion()->getHasFileFd() == false)
 	{
@@ -40,7 +40,9 @@ void	WS::Response::fillBody(Parser *parse, std::string status, std::string msg)
 			this->m_body = "<head><meta http-equiv=\"Refresh\" content=\"0; URL=" + urlRedirect + "\"></head>";
 		}
 		else if (this->m_req->getStatus() == 204)
-			this->m_body = "";	
+			this->m_body = "";
+		else if (this->m_req->getContentType() == "image/png")
+			this->m_body = fileBuff;	
 		else
 			this->m_body = status + " - " + msg;
 	}

@@ -44,7 +44,7 @@ namespace WS
 			Response(Request *req, Website *website, std::string fileBuff);
 
 			//SETTEURS
-			void	fillBody(Parser *parse, std::string status, std::string msg);
+			void	fillBody(Parser *parse, std::string status, std::string msg, std::string fileBuff);
 
 			//ACCESSEURS
 			std::string getResponse();
