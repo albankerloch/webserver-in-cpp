@@ -54,6 +54,7 @@ namespace WS
 			void		findRoute();
 			std::string	findUrlLocation();
 			void 		findFile();
+			void 		findContentType();
 			int 		checkMethod();
 			void		createAutoIndex(std::string dir);
 			int			cgiProcess();

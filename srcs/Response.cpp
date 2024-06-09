@@ -15,7 +15,7 @@ WS::Response::Response(Request *req, Website *website, std::string fileBuff)
 	
 	fillBody(&parse, status, msg);
 	
-	header = this->m_req->getProtocolVersion() + " " + status + " " + msg + " \nContent-Type: text/html";
+	header = this->m_req->getProtocolVersion() + " " + status + " " + msg + " \nContent-Type: " + this->m_req->getContentType();
 	this->m_response = header + "\n\n" + this->m_body;
 	this->m_size = this->m_response.size();
 }

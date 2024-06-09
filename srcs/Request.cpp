@@ -16,9 +16,6 @@ WS::Request::Request(std::string request, Website *website, Connexion *connexion
 		this->m_host = parse.getElem(parse.getTokenFromVector("Host:"), ':', 0);
 		setPort(parse);
 		this->m_accept = parse.getTokenFromVector("Accept:");
-		this->m_contentType = parse.getTokenFromVector("Content-Type:");
-		if (m_contentType.compare("NA") == 0)
-			m_contentType = "text/html";
 		this->m_contentLength = parse.getTokenFromVector("Content-Length:");
 		this->m_encoding = parse.getTokenFromVector("Accept-Encoding:");
 		this->m_connection = parse.getTokenFromVector("Connection:");
@@ -35,6 +32,7 @@ WS::Request::Request(std::string request, Website *website, Connexion *connexion
 		this->m_target = this->m_route.getRootDir() + this->m_url.substr(this->m_route.getExistingCondition().size(), this->m_url.size());
 		this->m_isPostNonCgi = isPostNonCgi();
 		this->findFile();
+		this->findContentType();
 	}
 	catch(const std::exception& e)
 	{
@@ -135,7 +133,20 @@ void	WS::Request::findFile()
 			this->m_file = this->m_target;
 	}
 
-	//std::cout << "File requested : " << (this->m_file.empty() ? "Auto index" : this->m_file) << std::endl;
+	std::cout << "File requested : " << (this->m_file.empty() ? "Auto index" : this->m_file) << std::endl;
+}
+
+void	WS::Request::findContentType()
+{
+	std::string extension;
+
+	this->m_contentType = "text/html";
+	extension = this->m_file.substr(this->m_file.find_last_of(".") + 1, this->m_file.size());
+	if (extension == "css")
+		this->m_contentType = "text/css";		
+	if (extension == "png" || extension == "jpeg")
+		this->m_contentType = "image/" + extension;
+	std::cout << "File extension : " << extension << std::endl;
 }
 
 int WS::Request::checkMethod()
